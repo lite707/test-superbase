@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient("https://xggqgyareguxvuehlhst.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZ3FneWFyZWd1eHZ1ZWhsaHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4NDAzODQsImV4cCI6MjAyOTQxNjM4NH0.UStuXqACI8ZfZ3ep02wGZIFA3yGIWNC_d0EJnpeV6CQ");
+
+let project_key = "https://xggqgyareguxvuehlhst.supabase.co";
+let api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZ3FneWFyZWd1eHZ1ZWhsaHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4NDAzODQsImV4cCI6MjAyOTQxNjM4NH0.UStuXqACI8ZfZ3ep02wGZIFA3yGIWNC_d0EJnpeV6CQ"
+// let api_key = '';
+
+const supabase = createClient(project_key , api_key );
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -18,11 +23,9 @@ function App() {
     setCountries(data);
   }
 
-    
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
-
     
   const handleClick =async () => {
     if(text === '插入数据'){
@@ -48,6 +51,7 @@ function App() {
     getCountries()
 
   };
+
   const handleDeleteClick =async (id) => {
     console.log(id);
     const { error } = await supabase
@@ -57,6 +61,7 @@ function App() {
     getCountries()
 
   };
+
   const handleChangeClick =async (country) => {
     console.log(country);
     setInputValue(country.name)
@@ -73,11 +78,18 @@ function App() {
   };
 
 
-  
-
+  const tst =async () => {
+    let { data, error } = await supabase.auth.signUp({
+      email: 'someone1@email.com',
+      password: 'xlHVNrnLkDPvWvDSJPqo'
+    })
+    console.log(data);
+  };
 
   return (
     <>
+        <button  onClick={tst}>tst</button>
+    
      <div>
       <input 
         type="text" 
@@ -93,7 +105,6 @@ function App() {
         
         <li key={country.name}>{country.name} 
         <button  onClick={() => handleChangeClick(country)}>修改数据</button>
-        
         
         <button  onClick={() => handleDeleteClick(country.id)}>删除数据</button></li>   
       ))}
